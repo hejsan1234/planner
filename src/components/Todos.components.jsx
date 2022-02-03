@@ -1,12 +1,20 @@
 import React from 'react';
+import Todo from './Todo.component';
 
-const Todos = ({ todos }) => {
-
-    
+const Todos = ({ todos, removeTodo, completeTodo, addCompletedTodo }) => {
 
   return(
     <div>
-        {todos.map(e => <li key={e.id}>{e.text}</li>)}
+        {todos.map(todo => (
+          <Todo 
+          key={todo.id}
+          removeTodo={removeTodo}
+          text={todo.text}
+          todo={todo}
+          completeTodo={completeTodo}
+          addCompletedTodo={addCompletedTodo}
+          />
+        ))}
     </div>
   )
 };
