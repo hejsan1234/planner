@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './todo.styles.css'
+
 const Todo = ({ text, removeTodo, todo, completeTodo, addCompletedTodo}) => {
 
   //const remove = () => {
@@ -13,10 +15,12 @@ const Todo = ({ text, removeTodo, todo, completeTodo, addCompletedTodo}) => {
 
   }
 
+  
+
   return(
-    <div>
-        <li>{text}</li>
-        <input type='button' onClick={completed}></input>
+    <div className='todo-container'>
+        <li className='list-item' >{text}</li>
+        <input className='complete-button' type='button' onClick={completed} value='Complet' ></input>
     </div>
   ) 
 };
