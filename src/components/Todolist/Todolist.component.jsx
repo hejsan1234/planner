@@ -9,17 +9,13 @@ import { Link } from 'react-router-dom';
 import { auth } from '../firebase/firebase';
 
 
-export const TodoList = ({ user, signOut }) => {
+export const TodoList = ({ getUserTodos, setUserTodos, user, signOut, todos, setTodos, completedTodo, setCompletedTodo }) => {
 
     const [todo, setTodo] = useState({
         text: '',
         id: '', 
         completed: false
     });
-
-    const [todos, setTodos] = useState([]);
-
-    const [completedTodo, setCompletedTodo] = useState([]);
 
     const current = new Date();
 
@@ -80,6 +76,7 @@ export const TodoList = ({ user, signOut }) => {
     return (
         <div className='container'>
             <div className='form-container'>
+                <button onClick={getUserTodos}></button>
                 <nav className='todo-navbar'>
                     <div className='sign-in-wrapper'>
                         {

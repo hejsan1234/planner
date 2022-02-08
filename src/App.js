@@ -7,12 +7,52 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { auth } from './components/firebase/firebase';
 
 import firebase from './components/firebase/firebase';
+import { doc, setDoc, collection, addDoc, getDoc, query, where } from "firebase/firestore"; 
+import { db } from './components/firebase/firebase';
 
 function App() {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Implementing firebase in project //
+
+
+  const setUserTodos = async () => {
+    await setDoc(doc(db, "users", `${user.uid}`), {
+      todos: todos,
+      completedTodos: completedTodo
+    });
   }
+
+  const getUserTodos = async () => {
+    if (user) {
+      const docRef = doc(db, "users", `${user.uid}`);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const bothTodos = docSnap.data()
+        bothTodos.todos.map((e) => {
+          setTodos([e])
+        })
+        bothTodos.completedTodos.map((event) => {
+          setCompletedTodo([event])
+        })
+      } else {
+        console.log('there was an error retrieving your data')
+      }
+    }
+  }
+
+
+  // firebase implement
+
+  const [todos, setTodos] = useState([]);
+
+  const [completedTodo, setCompletedTodo] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      getUserTodos();
+    }
+  }) 
 
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
@@ -56,7 +96,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<TodoList user={user} signOut={logout} login={login} />} />
+      <Route path='/' element={<TodoList getUserTodos={getUserTodos} setUserTodos={setUserTodos} user={user} signOut={logout} login={login} todos={todos} setTodos={setTodos} completedTodo={completedTodo} setCompletedTodo={setCompletedTodo} />} />
       <Route path='/SignIn' element={<SignIn {... { register, login, logout, registerEmail, registerPassword, loginEmail, loginPassword, setRegisterEmail, setRegisterPassword, setLoginEmail, setLoginPassword}} />} />
     </Routes>
   );
