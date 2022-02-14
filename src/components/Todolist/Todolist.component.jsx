@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { auth } from '../firebase/firebase';
 
 
-export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, user, signOut, todos, setTodos, completedTodo, setCompletedTodo }) => {
+export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, user, logout, todos, setTodos, completedTodo, setCompletedTodo }) => {
 
     const [todo, setTodo] = useState({
         text: '',
@@ -31,7 +31,6 @@ export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, us
     
     const getDay = (e) => {
         setTodo({...todo, day: e.currentTarget.value})
-        console.log(todo)
     }
 
     const addTodos = (todo) => {
@@ -40,7 +39,6 @@ export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, us
         } else {
             setTodos([todo, ...todos])
         }
-        console.log(todo)
     }
 
     const handleSubmit = (e) => {
@@ -76,13 +74,25 @@ export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, us
         })
     }
 
+    // setting what list to render
+
+    const [showDays, setShowDays] = useState(false)
+
     const myClick = (e) => {
         if (e.target.innerText === 'All') {
             setList(false)
+            setShowDays(false)
         } else {
             setList(true)
+            setShowDays(false)
         }
     }
+
+    const setDaysFunc = () => {
+        setShowDays(!showDays)
+    }
+
+    // end of functions to set the list to render
 
 
     // day dropdown
@@ -97,10 +107,6 @@ export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, us
         console.log(e.value)
     }
 
-    useEffect(() => {
-
-    }) 
-
     /* for dropdown https://www.npmjs.com/package/react-dropdown */
 
     return (
@@ -110,7 +116,7 @@ export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, us
                     <Clock />
                     <div className='sign-in-wrapper'>
                         {
-                            user ? <p onClick={signOut} className='sign-out'>Sign out</p>: <Link to='/SignIn' className='sign-out' >Sign in</Link>
+                            user ? <p onClick={logout} className='sign-out'>Sign out</p> : <Link to='/SignIn' className='sign-out' >Sign in</Link>
                         }
                     </div>
                 </nav>
@@ -127,18 +133,26 @@ export const TodoList = ({ nextDay, lastDay, day, getUserTodos, setUserTodos, us
                     <input className='submit-btn' type="submit" value='Submit Task' ></input>
                     <div className='toggle-wrapper'>
                         <h2 className='toggle-list' onClick={myClick}>All</h2>
-                        <DropDown onChange={whatDay} options={options} placeholder='day' />
+                        <h2 className='toggle-list' onClick={setDaysFunc}>Days</h2>
                         <h2 className='toggle-list' onClick={myClick}>Completed</h2>
                     </div>
                     <ul>
-                        {list === false ? 
+                        {list === false && showDays === false? 
                         <Todos 
                         todos={todos}
                         removeTodo={removeTodo}
                         completeTodo={completeTodo}
                         addCompletedTodo={addCompletedTodo}
-                        /> : <CompletedTodos
-                        completedTodo={completedTodo} />}
+                        day={day}
+                        /> : list === true && showDays === false ? <CompletedTodos
+                        completedTodo={completedTodo} />
+                        : <Todos 
+                            todos={todos.filter(todos => todos.day === day.toLowerCase())}
+                            removeTodo={removeTodo}
+                            completeTodo={completeTodo}
+                            addCompletedTodo={addCompletedTodo}
+                            day={day}
+                            />}
                     </ul>
                 </form>
             </div>

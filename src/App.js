@@ -163,7 +163,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<TodoList {...{ lastDay, nextDay, day, getUserTodos, setUserTodos, user, signOut, login, todos, setTodos, completedTodo, setCompletedTodo}} />} />
+      <Route path='/' element={<TodoList {...{ lastDay, nextDay, day, getUserTodos, setUserTodos, user, logout, login, todos, setTodos, completedTodo, setCompletedTodo}} />} />
       <Route path='/SignIn' element={<SignIn {... { register, login, logout, registerEmail, registerPassword, loginEmail, loginPassword, setRegisterEmail, setRegisterPassword, setLoginEmail, setLoginPassword}} />} />
     </Routes>
   );

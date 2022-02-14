@@ -1,7 +1,7 @@
 import React from 'react';
 import Todo from './Todo.component';
 
-const Todos = ({ todos, removeTodo, completeTodo, addCompletedTodo }) => {
+const Todos = ({ day, todos, removeTodo, completeTodo, addCompletedTodo }) => {
 
   return(
     <div>
@@ -13,6 +13,7 @@ const Todos = ({ todos, removeTodo, completeTodo, addCompletedTodo }) => {
           todo={todo}
           completeTodo={completeTodo}
           addCompletedTodo={addCompletedTodo}
+          day={day}
           />
         ))}
     </div>

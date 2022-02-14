@@ -2,7 +2,7 @@ import React from 'react';
 
 import './todo.styles.css'
 
-const Todo = ({ text, removeTodo, todo, completeTodo, addCompletedTodo}) => {
+const Todo = ({ day, text, removeTodo, todo, completeTodo, addCompletedTodo}) => {
 
   //const remove = () => {
    //   removeTodo(todo.completed)
@@ -20,7 +20,13 @@ const Todo = ({ text, removeTodo, todo, completeTodo, addCompletedTodo}) => {
   return(
     <div className='todo-container'>
         <li className='list-item' >{text}</li>
-        <input className='complete-button' type='button' onClick={completed} value='Complet' ></input>
+        <div className='list-item-wrapper'>
+          <input className='complete-button' type='button' onClick={completed} value='Complet' ></input>
+          {
+            todo.day != 'all' ? <p className='date-done'>Done by {todo.day}</p>
+            : <p className='date-done'></p>
+          }
+        </div>
     </div>
   ) 
 };
