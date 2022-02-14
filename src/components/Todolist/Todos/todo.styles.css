@@ -10,6 +10,7 @@
     border: #3D3D3D solid 1px;
     border-radius: 8px;
     background-color: #545454;
+    transition: 0.3s;
 }
 
 .list-item {
